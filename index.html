@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wonderverse | Explore the Unknown</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #080b16;
+  --card: rgba(255,255,255,.055);
+  --text: #f5f7ff;
+  --muted: #a0a8c0;
+  --accent: #a78bfa;
+  --border: rgba(255,255,255,.11);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: Inter, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body:before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 15% 10%, #31216a55, transparent 40%),
+    radial-gradient(ellipse at 90% 40%, #075e7950, transparent 35%),
+    radial-gradient(ellipse at 50% 100%, #4c1d9550, transparent 45%);
+}
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 7%;
+  background: #080b16d9;
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-size: 21px; font-weight: 800; letter-spacing: -1px; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 22px; align-items: center; }
+a { color: var(--muted); text-decoration: none; font-size: 13px; }
+a:hover { color: white; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.btn {
+  border: 1px solid var(--border);
+  background: #ffffff0b;
+  color: white;
+  padding: 11px 16px;
+  border-radius: 12px;
+  transition: .25s;
+}
+.btn:hover { transform: translateY(-2px); background: #ffffff18; }
+.primary {
+  background: linear-gradient(110deg,#8b5cf6,#6366f1);
+  border: none;
+  box-shadow: 0 6px 28px #8b5cf633;
+}
+.primary:hover { background: linear-gradient(110deg,#a78bfa,#818cf8); }
+.hero {
+  text-align: center;
+  padding: 85px 20px 48px;
+  max-width: 950px;
+  margin: auto;
+}
+.pill {
+  display: inline-block;
+  color: #c4b5fd;
+  border: 1px solid #a78bfa55;
+  background: #8b5cf61a;
+  border-radius: 30px;
+  padding: 8px 15px;
+  font-size: 12px;
+  margin-bottom: 25px;
+}
+h1 {
+  font-size: clamp(42px,7vw,76px);
+  letter-spacing: -4px;
+  line-height: 1.08;
+}
+.gradient {
+  background: linear-gradient(100deg,#c4b5fd,#67e8f9,#f0abfc);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.hero p {
+  color: var(--muted);
+  max-width: 590px;
+  margin: 22px auto;
+  line-height: 1.8;
+  font-size: 15px;
+}
+.hero-actions { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:27px; }
+.stats {
+  display:flex; justify-content:center; gap:45px;
+  margin-top:43px; flex-wrap:wrap;
+}
+.stat strong { display:block; font-size:23px; }
+.stat span { color:var(--muted); font-size:11px; }
+main { max-width:1200px; margin:auto; padding:20px 24px 80px; }
+.section-head {
+  display:flex; justify-content:space-between; align-items:end;
+  gap:15px; flex-wrap:wrap; margin:35px 0 22px;
+}
+h2 { font-size:25px; letter-spacing:-1px; }
+.sub { color:var(--muted); font-size:13px; margin-top:8px; }
+.featured {
+  display:grid; grid-template-columns:1.1fr 1fr; gap:28px;
+  align-items:center; padding:30px;
+  border:1px solid var(--border); border-radius:24px;
+  background:linear-gradient(120deg,#8b5cf61a,#06b6d41a);
+  overflow:hidden;
+}
+.feature-art {
+  min-height:250px; display:grid; place-items:center;
+  font-size:110px;
+  background:radial-gradient(circle,#a78bfa30,transparent 65%);
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float { 50% { transform:translateY(-9px); } }
+.tag { font-size:11px; color:#67e8f9; text-transform:uppercase; letter-spacing:2px; }
+.featured h3 { font-size:clamp(23px,3vw,34px); margin:15px 0; line-height:1.3; }
+.featured p { color:var(--muted); font-size:14px; line-height:1.8; }
+.feature-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:22px; }
+.toolbar {
+  display:flex; gap:12px; flex-wrap:wrap; margin:25px 0 20px;
+}
+.search {
+  flex:1; min-width:200px; background:#ffffff09;
+  color:white; border:1px solid var(--border);
+  border-radius:12px; padding:13px 15px; outline:none;
+}
+.search:focus { border-color:var(--accent); }
+.filters { display:flex; gap:8px; flex-wrap:wrap; }
+.filter { border:1px solid var(--border); background:var(--card);
+  color:var(--muted); border-radius:30px; padding:10px 14px; font-size:12px; }
+.filter.active { background:#8b5cf633; color:white; border-color:#a78bfa77; }
+.grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17px; }
+.fact {
+  position:relative; padding:23px; border-radius:19px;
+  background:var(--card); border:1px solid var(--border);
+  transition:transform .25s,border-color .25s;
+  animation:appear .4s ease both;
+}
+.fact:hover { transform:translateY(-5px); border-color:#a78bfa88; }
+@keyframes appear { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.fact-top { display:flex; justify-content:space-between; align-items:center; }
+.emoji { font-size:32px; margin:15px 0; }
+.category { font-size:10px; color:#c4b5fd; text-transform:uppercase; letter-spacing:1px; }
+.fact h3 { font-size:17px; line-height:1.5; margin:8px 0 12px; }
+.fact p { color:var(--muted); font-size:13px; line-height:1.8; }
+.fact-actions { display:flex; gap:8px; margin-top:20px; }
+.small { font-size:12px; padding:8px 11px; }
+.heart { border:0; background:none; color:#9299ad; font-size:21px; }
+.heart.saved { color:#fb7185; }
+.empty { grid-column:1/-1; text-align:center; padding:50px; color:var(--muted); }
+.quiz {
+  margin-top:60px; padding:32px; border-radius:24px;
+  background:linear-gradient(120deg,#312e814c,#164e6344);
+  border:1px solid var(--border);
+}
+.quiz h2 { margin:12px 0; }
+.quiz p { color:var(--muted); line-height:1.8; margin:12px 0 20px; }
+.answers { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.answer { text-align:left; padding:15px; border-radius:12px; color:white;
+  border:1px solid var(--border); background:#ffffff09; }
+.answer:hover { border-color:var(--accent); }
+.answer.correct { background:#16a34a25; border-color:#4ade80; }
+.answer.wrong { background:#ef444425; border-color:#f87171; }
+#quizResult { margin-top:15px; font-size:13px; }
+footer { border-top:1px solid var(--border); text-align:center; padding:30px 15px; color:var(--muted); font-size:12px; }
+.toast {
+  position:fixed; bottom:25px; left:50%; transform:translate(-50%,20px);
+  opacity:0; background:#20243a; border:1px solid var(--border);
+  padding:12px 20px; border-radius:12px; z-index:30;
+  transition:.25s; pointer-events:none; font-size:13px;
+}
+.toast.show { opacity:1; transform:translate(-50%,0); }
+@media(max-width:850px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:600px) {
+  nav { padding:15px 5%; } .nav-links a { display:none; }
+  .hero { padding-top:60px; } h1 { letter-spacing:-2px; }
+  .featured { grid-template-columns:1fr; padding:22px; }
+  .feature-art { min-height:140px; font-size:80px; }
+  .grid { grid-template-columns:1fr; }
+  .stats { gap:25px; }
+  main { padding:15px; }
+  .answers { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">WONDER<span>VERSE.</span></div>
+  <div class="nav-links">
+    <a href="#discover">Discover</a>
+    <a href="#quiz">Brain Quiz</a>
+    <a href="#favorites">Favorites</a>
+    <button class="btn" id="themeBtn" onclick="toggleTheme()">☀ Light</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="pill">✦ YOUR DAILY DOSE OF WONDER</div>
+  <h1>The world is more<br><span class="gradient">amazing than you think.</span></h1>
+  <p>From mysterious oceans to distant galaxies, discover the incredible facts that make our universe extraordinary.</p>
+  <div class="hero-actions">
+    <button class="btn primary" onclick="randomFact()">🎲 Surprise Me</button>
+    <button class="btn" onclick="document.getElementById('discover').scrollIntoView()">Explore Facts ↓</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><strong id="factCount">24</strong><span>AMAZING FACTS</span></div>
+    <div class="stat"><strong>6</strong><span>DISCOVERY CATEGORIES</span></div>
+    <div class="stat"><strong>∞</strong><span>THINGS TO LEARN</span></div>
+  </div>
+</header>
+
+<main>
+  <div class="section-head">
+    <div><h2>✨ Today's Wonder</h2><p class="sub">One little fact. One big change in perspective.</p></div>
+  </div>
+  <section class="featured" id="featured">
+    <div class="feature-art" id="featureEmoji">🌌</div>
+    <div>
+      <span class="tag">✦ FACT OF THE DAY</span>
+      <h3 id="featureTitle">A day on Venus is longer than its year.</h3>
+      <p id="featureText">Venus rotates so slowly that one full rotation takes longer than one trip around the Sun.</p>
+      <div class="feature-actions">
+        <button class="btn primary" onclick="randomFact()">Discover Another →</button>
+        <button class="btn" onclick="copyFeatured()">📋 Copy Fact</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="discover">
+    <div class="section-head">
+      <div><h2>Explore the Universe</h2><p class="sub">Curiosity starts with a single question.</p></div>
+      <span class="sub" id="resultCount">24 facts</span>
+    </div>
+    <div class="toolbar">
+      <input id="search" class="search" placeholder="🔎 Search amazing facts..." oninput="renderFacts()">
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="grid" id="factGrid"></div>
+    <div style="text-align:center;margin-top:25px">
+      <button class="btn" id="moreBtn" onclick="showMore()">Load More Facts ↓</button>
+    </div>
+  </section>
+
+  <section class="quiz" id="quiz">
+    <span class="tag">🧠 TEST YOUR KNOWLEDGE</span>
+    <h2>The Curiosity Challenge</h2>
+    <p id="question">Which planet has the shortest day?</p>
+    <div class="answers" id="answers"></div>
+    <div id="quizResult"></div>
+    <button class="btn primary" style="margin-top:20px" onclick="nextQuestion()">Next Question →</button>
+  </section>
+
+  <section id="favorites">
+    <div class="section-head">
+      <div><h2>❤️ Your Wonder Wall</h2><p class="sub">The facts you want to remember.</p></div>
+      <button class="btn small" onclick="showFavorites()">View Favorites</button>
+    </div>
+    <div class="grid" id="favoriteGrid">
+      <div class="empty">Save a fact with ❤️ to build your Wonder Wall.</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">WONDER<span>VERSE.</span></div>
+  <p style="margin-top:12px">Stay curious. Question everything. Keep discovering. ✨</p>
+  <p style="margin-top:8px">Educational discovery experience · Made for curious minds</p>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const facts = [
+{e:"🌌",c:"Space",t:"A day on Venus is longer than its year.",d:"Venus takes about 243 Earth days to rotate once, but about 225 Earth days to orbit the Sun."},
+{e:"⭐",c:"Space",t:"Neutron stars are incredibly dense.",d:"A neutron star packs roughly a Sun's mass into a sphere only around 20 kilometres across."},
+{e:"🪐",c:"Space",t:"Saturn could float in water.",d:"Saturn's average density is lower than water's. A sufficiently enormous ocean would be needed for this thought experiment."},
+{e:"☀️",c:"Space",t:"Sunlight takes time to reach Earth.",d:"Light from the Sun takes about 8 minutes and 20 seconds to travel to Earth."},
+{e:"🌕",c:"Space",t:"The Moon is slowly moving away.",d:"The Moon recedes from Earth by about 3.8 centimetres each year."},
+{e:"🌠",c:"Space",t:"Space is not completely silent.",d:"Sound needs a medium such as air, so ordinary sound cannot travel through the vacuum of space."},
+{e:"🌍",c:"Earth",t:"Earth is not a perfect sphere.",d:"Earth bulges slightly at the equator because of its rotation, making it an oblate spheroid."},
+{e:"🌊",c:"Earth",t:"Most of Earth's ocean is unexplored.",d:"Much of the deep ocean remains poorly observed and mapped in detail."},
+{e:"⚡",c:"Earth",t:"Lightning is extremely hot.",d:"A lightning channel can briefly reach temperatures around 30,000 kelvin, hotter than the Sun's visible surface."},
+{e:"🏔️",c:"Earth",t:"Everest is the highest mountain above sea level.",d:"Mount Everest stands about 8,849 metres above sea level. Other mountains measure higher from different reference points."},
+{e:"🌈",c:"Earth",t:"Rainbows are full circles.",d:"From an aircraft or another suitable viewpoint, a rainbow can sometimes be seen as a complete circle."},
+{e:"🧊",c:"Earth",t:"Ice can be slippery for several reasons.",d:"A thin surface layer, friction and other effects all contribute to why ice can be slippery."},
+{e:"🐙",c:"Animals",t:"Octopuses have three hearts.",d:"Two hearts pump blood toward the gills, while a third pumps it to the rest of the body."},
+{e:"🦈",c:"Animals",t:"Sharks are older than trees.",d:"Shark ancestors existed hundreds of millions of years ago, before the earliest true trees."},
+{e:"🦋",c:"Animals",t:"Butterflies taste with their feet.",d:"Taste receptors on their feet help butterflies identify suitable plants, including places to lay eggs."},
+{e:"🐘",c:"Animals",t:"Elephants communicate in low frequencies.",d:"Some elephant calls contain infrasonic sounds below the range of typical human hearing."},
+{e:"🦦",c:"Animals",t:"Sea otters sometimes hold hands.",d:"Sea otters may hold paws while resting to help keep from drifting apart."},
+{e:"🐧",c:"Animals",t:"Penguins have excellent underwater movement.",d:"Their streamlined bodies and powerful flippers make them highly effective swimmers."},
+{e:"🧠",c:"Human Body",t:"Your brain uses a lot of energy.",d:"The adult brain accounts for roughly 20% of the body's resting energy use, despite its relatively small mass."},
+{e:"👁️",c:"Human Body",t:"Your cornea has no blood vessels.",d:"The transparent cornea gets oxygen mainly from the air through tears and from surrounding fluids."},
+{e:"❤️",c:"Human Body",t:"Your heart beats around 100,000 times a day.",d:"This is a rough estimate; the total varies with heart rate, activity, age and other factors."},
+{e:"🦴",c:"Human Body",t:"Babies have more bones than adults.",d:"Many bones fuse as children grow. Adults typically have 206 bones."},
+{e:"🧬",c:"Science",t:"DNA carries biological instructions.",d:"DNA stores genetic information that helps guide how living organisms develop and function."},
+{e:"💧",c:"Science",t:"Water expands when it freezes.",d:"Ice is less dense than liquid water, which is why it floats."},
+{e:"🔭",c:"Science",t:"Looking far away in space means looking back in time.",d:"Light takes time to travel, so distant objects appear as they were when their light began its journey."},
+{e:"🪴",c:"Science",t:"Plants can respond to light.",d:"Phototropism helps plant shoots grow toward light, supporting photosynthesis."},
+{e:"🔬",c:"Science",t:"A teaspoon of neutron-star matter would be enormous in mass.",d:"Such matter is extraordinarily dense, though removing it from a neutron star would not preserve it in ordinary conditions."},
+{e:"🌳",c:"Earth",t:"Trees can exchange chemical signals.",d:"Plants interact with their environment through chemical signals, and some trees connect with fungi that link plant roots."}
+];
+
+const categories = ["All","Space","Earth","Animals","Human Body","Science"];
+let activeCategory = "All";
+let visibleCount = 9;
+let favoriteIds = new Set();
+let favoritesOnly = false;
+let currentFeature = 0;
+let quizIndex = 0;
+let answered = false;
+
+try {
+  favoriteIds = new Set(JSON.parse(localStorage.getItem("wonderverse-favorites") || "[]"));
+} catch(e) {}
+
+document.getElementById("factCount").textContent = facts.length;
+
+function toast(message) {
+  const el = document.getElementById("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 2200);
+}
+
+function escapeHTML(s) {
+  return s.replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+
+function makeFilters() {
+  document.getElementById("filters").innerHTML = categories.map(c =>
+    `<button class="filter ${c===activeCategory?"active":""}" onclick="setCategory('${c}')">${c}</button>`
+  ).join("");
+}
+
+function setCategory(category) {
+  activeCategory = category;
+  visibleCount = 9;
+  favoritesOnly = false;
+  makeFilters();
+  renderFacts();
+}
+
+function cardHTML(f, index) {
+  const saved = favoriteIds.has(index);
+  return `<article class="fact">
+    <div class="fact-top"><span class="category">${f.c}</span>
+    <button class="heart ${saved?"saved":""}" aria-label="${saved?"Remove favorite":"Save favorite"}"
+    onclick="toggleFavorite(${index})">${saved?"♥":"♡"}</button></div>
+    <div class="emoji">${f.e}</div>
+    <h3>${f.t}</h3>
+    <p>${f.d}</p>
+    <div class="fact-actions">
+      <button class="btn small" onclick="copyFact(${index})">📋 Copy</button>
+      <button class="btn small" onclick="shareFact(${index})">↗ Share</button>
+    </div>
+  </article>`;
+}
+
+function renderFacts() {
+  const query = document.getElementById("search").value.toLowerCase().trim();
+  let filtered = facts.map((f,i)=>({...f,id:i})).filter(f =>
+    (activeCategory==="All" || f.c===activeCategory) &&
+    (!favoritesOnly || favoriteIds.has(f.id)) &&
+    (f.t+" "+f.d+" "+f.c).toLowerCase().includes(query)
+  );
+  document.getElementById("resultCount").textContent = `${filtered.length} facts`;
+  document.getElementById("factGrid").innerHTML = filtered.slice(0,visibleCount).map(f=>cardHTML(f,f.id)).join("")
+    || `<div class="empty">No facts found. Try another search! 🔎</div>`;
+  document.getElementById("moreBtn").style.display = filtered.length>visibleCount ? "inline-block":"none";
+}
+
+function showMore() { visibleCount += 9; renderFacts(); }
+
+function toggleFavorite(index) {
+  if(favoriteIds.has(index)) favoriteIds.delete(index);
+  else favoriteIds.add(index);
+  try { localStorage.setItem("wonderverse-favorites",JSON.stringify([...favoriteIds])); } catch(e) {}
+  renderFacts();
+  renderFavorites();
+  toast(favoriteIds.has(index) ? "Added to your Wonder Wall ❤️":"Removed from favorites");
+}
+
+function renderFavorites() {
+  const ids = [...favoriteIds];
+  document.getElementById("favoriteGrid").innerHTML = ids.length
+    ? ids.map(i=>cardHTML(facts[i],i)).join("")
+    : `<div class="empty">Save a fact with ❤️ to build your Wonder Wall.</div>`;
+}
+
+function showFavorites() {
+  document.getElementById("favorites").scrollIntoView({behavior:"smooth"});
+  renderFavorites();
+}
+
+function randomFact() {
+  currentFeature = Math.floor(Math.random()*facts.length);
+  const f = facts[currentFeature];
+  document.getElementById("featureEmoji").textContent = f.e;
+  document.getElementById("featureTitle").textContent = f.t;
+  document.getElementById("featureText").textContent = f.d;
+  document.getElementById("featured").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast("Copied to clipboard! 📋");
+  } catch(e) {
+    const area = document.createElement("textarea");
+    area.value = text;
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+    toast("Fact copied!");
+  }
+}
+function copyFact(i) { copyText(facts[i].t+" "+facts[i].d); }
+function copyFeatured() { copyFact(currentFeature); }
+
+async function shareFact(i) {
+  const text = facts[i].t+" "+facts[i].d;
+  if(navigator.share) {
+    try { await navigator.share({title:"Wonderverse Fact",text}); }
+    catch(e) {}
+  } else copyText(text);
+}
+
+const questions = [
+ {q:"Which planet has the shortest day?",a:["Mercury","Jupiter","Venus","Mars"],correct:1,why:"Jupiter completes one rotation in roughly 10 hours."},
+ {q:"Which animal has three hearts?",a:["Dolphin","Octopus","Penguin","Shark"],correct:1,why:"An octopus has two hearts for its gills and one for the rest of its body."},
+ {q:"Why does the Moon shine?",a:["It makes its own light","It reflects sunlight","It is on fire","It reflects Earth's core"],correct:1,why:"Moonlight is mostly sunlight reflected by the lunar surface."},
+ {q:"Which gas do plants absorb during photosynthesis?",a:["Oxygen","Helium","Carbon dioxide","Hydrogen"],correct:2,why:"Plants use carbon dioxide, water and light to produce sugars during photosynthesis."},
+ {q:"Which is the largest ocean on Earth?",a:["Atlantic","Indian","Arctic","Pacific"],correct:3,why:"The Pacific Ocean is Earth's largest ocean."},
+ {q:"What is the hardest natural mineral on the Mohs scale?",a:["Quartz","Diamond","Granite","Iron"],correct:1,why:"Diamond is rated 10 on the Mohs mineral hardness scale."}
+];
+
+function nextQuestion() {
+  quizIndex = (quizIndex+1)%questions.length;
+  answered = false;
+  renderQuestion();
+}
+function renderQuestion() {
+  const q=questions[quizIndex];
+  document.getElementById("question").textContent=q.q;
+  document.getElementById("quizResult").textContent="";
+  document.getElementById("answers").innerHTML=q.a.map((a,i)=>
+    `<button class="answer" onclick="checkAnswer(${i})">${String.fromCharCode(65+i)}. ${a}</button>`
+  ).join("");
+}
+function checkAnswer(index) {
+  if(answered) return;
+  answered=true;
+  const q=questions[quizIndex];
+  document.querySelectorAll(".answer").forEach((b,i)=>{
+    if(i===q.correct) b.classList.add("correct");
+    else if(i===index) b.classList.add("wrong");
+  });
+  document.getElementById("quizResult").textContent =
+    (index===q.correct?"✅ Correct! ":"❌ Not quite. ")+q.why;
+}
+
+let light = false;
+function toggleTheme() {
+  light=!light;
+  document.getElementById("themeBtn").textContent=light?"☾ Dark":"☀ Light";
+  document.body.style.setProperty("--bg",light?"#f4f5fb":"#080b16");
+  document.body.style.setProperty("--text",light?"#17182b":"#f5f7ff");
+  document.body.style.setProperty("--muted",light?"#555d73":"#a0a8c0");
+  document.body.style.setProperty("--card",light?"rgba(30,35,70,.06)":"rgba(255,255,255,.055)");
+  document.body.style.setProperty("--border",light?"rgba(30,35,70,.16)":"rgba(255,255,255,.11)");
+}
+
+makeFilters();
+renderFacts();
+renderFavorites();
+renderQuestion();
+</script>
+</body>
+</html>
